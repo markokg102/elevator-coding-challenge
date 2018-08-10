@@ -8,6 +8,8 @@ const INITAL_NUMBER_OF_ELEVATORS: number = 2;
 
 class Simulator extends React.Component<any, any> {
 
+    private timerID: any;
+
     constructor(props: any) {
         super(props);
         this.state = {
@@ -17,6 +19,7 @@ class Simulator extends React.Component<any, any> {
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.createNewBuilding = this.createNewBuilding.bind(this);
+        this.driveSimulator = this.driveSimulator.bind(this);
     }
 
     public handleInputChange(event: any) {
@@ -26,6 +29,26 @@ class Simulator extends React.Component<any, any> {
 
     public createNewBuilding() {
         this.setState({ ...this.state, building: new Building(this.state.inputValueNumberOfFloors, this.state.inputValueNumberOfElevators) });
+    }
+
+    public componentDidMount() {
+        this.timerID = setInterval(
+            () => this.driveSimulator(),
+            1000
+        );
+    }
+
+    public componentWillUnmount() {
+        clearInterval(this.timerID);
+    }
+
+    public driveSimulator() {
+        const building: Building = Object.create(this.state.building);
+        building.executeRequests();
+        this.setState({
+            ...this.state,
+            building
+        });
     }
 
     public render() {
@@ -56,9 +79,15 @@ class Simulator extends React.Component<any, any> {
                                 </tr>
                             </thead>
                             <tbody>
-                                {floors.map(floorNumber =>
+                                {floors.reverse().map(floorNumber =>
                                     <tr key={floorNumber}>
-                                        {elevators.map((elevator, indexElevator) => <td key={floorNumber + '-' + indexElevator}><button>{'F' + floorNumber + ' E ' + indexElevator}</button></td>)}
+                                        {elevators.map((elevator, indexElevator) =>
+                                            <td key={floorNumber + '-' + indexElevator}>
+                                                <span style={{backgroundColor: elevator.currentFloor === floorNumber ? 'green' :  'white'}}>{'F' + floorNumber + ' E ' + indexElevator}</span>
+                                            </td>)}
+                                        <td>
+                                            <button>Request elevator</button>
+                                        </td>
                                     </tr>
                                 )}
                             </tbody>

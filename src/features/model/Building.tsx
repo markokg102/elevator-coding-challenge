@@ -47,6 +47,12 @@ class Building {
         return this.elevators;
     }
 
+    public executeRequests() {
+        this.elevators.forEach(elevator => {
+            elevator.moveElevatorUpForOneFloor();
+        });
+    }
+
 }
 
 export default Building;

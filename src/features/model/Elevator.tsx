@@ -41,6 +41,15 @@ class Elevator {
         this.elevatorServiceState = ElevatorServiceState.NotServiced
     }
 
+    public moveElevatorUpForOneFloor() {
+        this.currentFloor++;
+    }
+
+    public moveElevatorDownForOneFloor() {
+       this.currentFloor--; 
+    }
+
+
 }
 
 export default Elevator;
