@@ -17,11 +17,13 @@ class Elevator {
     public currentFloor: number;
     public elevatorServiceState: ElevatorServiceState;
     public assignedRequestToElevator: Request;
+    private numberOfTrips: number;
 
     constructor() {
         this.elevatorOccupationState = ElevatorOccupationState.Unoccupied;
         this.currentFloor = 0;
-        this.elevatorServiceState = ElevatorServiceState.Serviced
+        this.elevatorServiceState = ElevatorServiceState.Serviced;
+        this.numberOfTrips = 0;
     }
 
     public changeElevatorCurrentFloor(newCurrentFloorParam: number) {
@@ -54,6 +56,10 @@ class Elevator {
 
     public assignRequestToElevator(requestParam: Request) {
         this.assignedRequestToElevator = requestParam;
+        this.numberOfTrips++;
+        if(this.numberOfTrips === 100) {
+            this.changeElevatorServiceStateToNotServiced();
+        } 
     }
 
 

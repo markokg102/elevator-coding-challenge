@@ -79,7 +79,7 @@ class Building {
         }
 
         this.elevators.forEach(elevator => {
-            if(elevator.assignedRequestToElevator && elevator.elevatorOccupationState === ElevatorOccupationState.Occupied && elevator.elevatorServiceState === ElevatorServiceState.Serviced) {
+            if(elevator.assignedRequestToElevator && elevator.elevatorOccupationState === ElevatorOccupationState.Occupied) {
                 const distanceToTheRequest = elevator.currentFloor - elevator.assignedRequestToElevator.requestedFloor;
                 if(Math.abs(distanceToTheRequest) > 0) {
                     if(distanceToTheRequest > 0) {

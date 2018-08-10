@@ -25,6 +25,11 @@ class Simulator extends React.Component<any, any> {
 
     public handleInputChange(event: any) {
         const name: string = event.target.name;
+
+        if(event.target.value < 2){
+            return;
+        }
+
         this.setState({ ...this.state, [name]: event.target.value });
     }
 
