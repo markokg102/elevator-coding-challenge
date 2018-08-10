@@ -8,18 +8,18 @@ class App extends React.Component {
   private building: Building;
 
   constructor(props: any) {
-    super(props);
+    super(props); 
 
     this.building = new Building(20, 2);
 
   }
 
-  public render() {
+  public render() { 
     return (
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">Elevator Coding Challenge</h1>
-          Building with: {this.building.ammountOfFloors} floors and {this.building.ammountOfElevators} elevators.
+          Building with: {this.building.getAmmountOfFloors()} floors and {this.building.getAmmountOfElevators()} elevators.
         </header>
       </div>
     );
