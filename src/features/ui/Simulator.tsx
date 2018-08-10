@@ -6,6 +6,12 @@ import Request from '../model/Request';
 const INITIAL_NUMBER_OF_FLOORS: number = 20;
 const INITAL_NUMBER_OF_ELEVATORS: number = 2;
 
+/**
+ * 
+ * Simulator is basic react component for creating new Building, and for showing current model state.
+ * Also this component has timer for driving process by calling driveSimulator which calls executeRequests on model.
+ * 
+ */
 class Simulator extends React.Component<any, any> {
 
     private timerID: any;

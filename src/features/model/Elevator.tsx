@@ -10,7 +10,11 @@ export enum ElevatorServiceState {
     NotServiced,
 }
 
-
+/**
+ * Elevator class, this is model of elevator with elevator states, current floor, occupation and service.
+ * To every free elevator algorithm asignes one request to execeute. 
+ * 
+ */
 class Elevator {
 
     public elevatorOccupationState: ElevatorOccupationState = ElevatorOccupationState.Unoccupied;
