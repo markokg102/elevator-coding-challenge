@@ -11,10 +11,16 @@ class Building {
     private elevators: Elevator[];
 
     constructor(ammountOfFloorsParam: number, ammountOfElevatorsParam: number) {
+
         this.ammountOfFloors = ammountOfFloorsParam;
         this.ammountOfElevators = ammountOfElevatorsParam;
         this.queueOfRequests = [];
         this.elevators = [];
+
+        for (let i = 0; i < this.ammountOfElevators; i++) {
+            this.elevators.push(new Elevator())
+        }
+
     }
 
     public newRequest(request: Request) {
@@ -35,6 +41,10 @@ class Building {
 
     public getAmmountOfElevators(): number {
         return this.ammountOfElevators;
+    }
+
+    public getElevators():  Elevator[] {
+        return this.elevators;
     }
 
 }
