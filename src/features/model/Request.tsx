@@ -1,16 +1,9 @@
-export enum RequestType {
-    RequestForElevator = 1,
-    RequestDestination,
-}
-
 class Request {
 
     public requestedFloor: number;
-    public requestType: RequestType;
-
-    constructor(requestedFloorParam: number, requestTypeParam: RequestType) {
+    
+    constructor(requestedFloorParam: number) {
         this.requestedFloor = requestedFloorParam;
-        this.requestType = requestTypeParam;
     }
 
 }

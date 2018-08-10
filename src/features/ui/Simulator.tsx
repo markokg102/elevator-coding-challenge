@@ -1,7 +1,7 @@
 import * as React from 'react';
-
 import Building from '../model/Building';
 import Elevator from '../model/Elevator';
+import Request from '../model/Request';
 
 const INITIAL_NUMBER_OF_FLOORS: number = 20;
 const INITAL_NUMBER_OF_ELEVATORS: number = 2;
@@ -20,6 +20,7 @@ class Simulator extends React.Component<any, any> {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.createNewBuilding = this.createNewBuilding.bind(this);
         this.driveSimulator = this.driveSimulator.bind(this);
+        this.requestElevator = this.requestElevator.bind(this);
     }
 
     public handleInputChange(event: any) {
@@ -45,6 +46,17 @@ class Simulator extends React.Component<any, any> {
     public driveSimulator() {
         const building: Building = Object.create(this.state.building);
         building.executeRequests();
+        this.setState({
+            ...this.state,
+            building
+        });
+    }
+
+    public requestElevator(event: any) {
+        const building: Building = Object.create(this.state.building);
+
+        building.newRequest(new Request(Number(event.target.name)));
+
         this.setState({
             ...this.state,
             building
@@ -83,10 +95,10 @@ class Simulator extends React.Component<any, any> {
                                     <tr key={floorNumber}>
                                         {elevators.map((elevator, indexElevator) =>
                                             <td key={floorNumber + '-' + indexElevator}>
-                                                <span style={{backgroundColor: elevator.currentFloor === floorNumber ? 'green' :  'white'}}>{'F' + floorNumber + ' E ' + indexElevator}</span>
+                                                <span style={{ backgroundColor: elevator.currentFloor === floorNumber ? 'green' : 'white' }}>{'F' + floorNumber + ' E ' + indexElevator}</span>
                                             </td>)}
                                         <td>
-                                            <button>Request elevator</button>
+                                            <button name={floorNumber + ''} onClick={this.requestElevator}>Request elevator</button>
                                         </td>
                                     </tr>
                                 )}

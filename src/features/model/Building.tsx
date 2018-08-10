@@ -1,4 +1,4 @@
-import Elevator from './Elevator';
+import Elevator, { ElevatorOccupationState, ElevatorServiceState } from './Elevator';
 import Request from './Request';
 
 class Building {
@@ -43,14 +43,57 @@ class Building {
         return this.ammountOfElevators;
     }
 
-    public getElevators():  Elevator[] {
+    public getElevators(): Elevator[] {
         return this.elevators;
     }
 
-    public executeRequests() {
+    public findClosestUnocupiedElevator(requestParam: Request) {
+        let closestUnocupiedElevator: Elevator | null = null;
+        let elevatorDistanceFromRequest: number = this.ammountOfFloors + 1;
+
         this.elevators.forEach(elevator => {
-            elevator.moveElevatorUpForOneFloor();
+            if (elevator.elevatorOccupationState === ElevatorOccupationState.Unoccupied && elevator.elevatorServiceState === ElevatorServiceState.Serviced) {
+                if (elevatorDistanceFromRequest > Math.abs(requestParam.requestedFloor - elevator.currentFloor)) {
+                    elevatorDistanceFromRequest = Math.abs(requestParam.requestedFloor - elevator.currentFloor);
+                    closestUnocupiedElevator = elevator;
+                }
+            }
         });
+
+        return closestUnocupiedElevator;
+
+
+    }
+
+    public executeRequests() {
+
+        if (this.queueOfRequests.length > 0) {
+            const closestUnocupiedElevator: Elevator | null = this.findClosestUnocupiedElevator(this.queueOfRequests[0]);
+
+            if (closestUnocupiedElevator) {
+                const closestUnocupiedElevatorFounded: Elevator = closestUnocupiedElevator;
+                closestUnocupiedElevatorFounded.assignRequestToElevator(this.queueOfRequests[0]);
+                closestUnocupiedElevatorFounded.changeElevatorStateToOccupied();
+                this.queueOfRequests.shift();
+            }
+        }
+
+        this.elevators.forEach(elevator => {
+            if(elevator.assignedRequestToElevator && elevator.elevatorOccupationState === ElevatorOccupationState.Occupied && elevator.elevatorServiceState === ElevatorServiceState.Serviced) {
+                const distanceToTheRequest = elevator.currentFloor - elevator.assignedRequestToElevator.requestedFloor;
+                if(Math.abs(distanceToTheRequest) > 0) {
+                    if(distanceToTheRequest > 0) {
+                        elevator.moveElevatorDownForOneFloor();
+                    } else {
+                        elevator.moveElevatorUpForOneFloor();
+                    }
+                } else {
+                    elevator.changeElevatorStateToUnoccupied();
+                }
+            }
+        });
+
+
     }
 
 }

@@ -1,3 +1,5 @@
+import Request from './Request'
+
 export enum ElevatorOccupationState {
     Unoccupied  = 1,
     Occupied,
@@ -14,6 +16,7 @@ class Elevator {
     public elevatorOccupationState: ElevatorOccupationState = ElevatorOccupationState.Unoccupied;
     public currentFloor: number;
     public elevatorServiceState: ElevatorServiceState;
+    public assignedRequestToElevator: Request;
 
     constructor() {
         this.elevatorOccupationState = ElevatorOccupationState.Unoccupied;
@@ -47,6 +50,10 @@ class Elevator {
 
     public moveElevatorDownForOneFloor() {
        this.currentFloor--; 
+    }
+
+    public assignRequestToElevator(requestParam: Request) {
+        this.assignedRequestToElevator = requestParam;
     }
 
 
